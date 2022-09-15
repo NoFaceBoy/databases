@@ -1,0 +1,1 @@
+Create a relational database schema of IMDB to store information about movies on the platform, movie cast, ratings, user reviews, description and interesting facts about the film. (Variant 62)
