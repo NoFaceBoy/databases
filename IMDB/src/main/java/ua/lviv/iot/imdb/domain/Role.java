@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class Role {
     private Integer id;
     private Integer movieId;
-    private String role;
+    private String name;
 }

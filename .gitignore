@@ -3,7 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 application.properties
-IMDB/.mvn/wrapper/maven-wrapper.jar
+
 
 ### STS ###
 .apt_generated

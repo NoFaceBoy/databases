@@ -12,5 +12,5 @@ public class Director {
     private String firstName;
     private String lastName;
     private String gender;
-    private Integer birthdate;
+    private String birthdate;
 }

@@ -82,7 +82,7 @@ DROP TABLE IF EXISTS `teliuk`.`role`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`role` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `movie_id` INT NOT NULL,
-  `role` VARCHAR(50) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `roles_movie` (`movie_id` ASC) VISIBLE,
   CONSTRAINT `roles_movie`
@@ -194,7 +194,7 @@ VALUES
 (1, 'George', 'Lucas', 'Male', '1944-05-14'),
 (2, 'Christopher', 'Nolan', 'Male', '1970-07-30'),
 (3, 'Stanley', 'Kubrick', 'Male', '1928-07-26'),
-(4, 'John', 'McTiernan', 'Male', '1951-01-08'),
+(4, 'James', 'McTiernan', 'Male', '1951-01-08'),
 (5, 'Martin', 'Scorsese', 'Male', '1942-11-17'),
 (6, 'Ron', 'Howard', 'Male', '1954-03-01'),
 (7, 'James', 'Cameron', 'Male', '1954-08-16'),
@@ -248,12 +248,12 @@ VALUES
 (7, 2, 7, 6, 'A Beautiful Mind', 'After John Nash, a brilliant but asocial mathematician, accepts secret work in cryptography, his life takes a turn for the nightmarish.', 58000000, 2001, 'There is no \"ceremony of the pens\" at Princeton University.'),
 (8, 4, 8, 8, 'Jurassic Park', 'A pragmatic paleontologist touring an almost complete theme park on an island in Central America is tasked with protecting a couple of kids after a power failure causes the park\'s cloned dinosaurs to run loose.', 63000000, 1993, 'When they arrive at the T. rex cage right before the black out, we can clearly see the ground inside the cage is approximately flush with that outside the cage. But when the T. rex escapes and begins to terrorize the two trucks, the ground in the cage is shown to be at least 100 feet below where it was before.'),
 (9, 1, 9, 7, 'The Terminator', 'A human soldier is sent from 2029 to 1984 to stop an almost indestructible cyborg killing machine, sent from the same year, which has been programmed to execute a young woman whose unborn son is the key to humanity\'s future salvation.', 6400000, 1984, 'Newton\'s Third Law establishes that bullets and shotgun blasts do not have the momentum to knock a human body backwards, although the trauma of being shot may cause them to fall backward.'),
-(10, 2, 10, 6, 'Rush', 'The merciless 1970s rivalry between Formula One rivals James Hunt and Niki Lauda.', 38000000, 2013, 'Throughout the film Niki Lauda\'s nationality is shown in the stats abbreviated as AUS - this would be the international code for Australia. Austria\'s code is AUT.');
+(10, 2, 10, 6, 'Rush', 'The merciless 1970s rivalry between Formula One rivals James Hunt and Niki Lauda.', 38000000, 2012, 'Throughout the film Niki Lauda\'s nationality is shown in the stats abbreviated as AUS - this would be the international code for Australia. Austria\'s code is AUT.');
 -- -----------------------------------------------------
 -- Data for table `teliuk`.`role`
 -- -----------------------------------------------------
 INSERT INTO 
-`teliuk`.`role` (`id`, `movie_id`, `role`) 
+`teliuk`.`role` (`id`, `movie_id`, `name`) 
 VALUES 
 (1, 1, 'Luke Skywalker'),
 (2, 1, 'Han Solo'),

@@ -42,12 +42,12 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public int create(Role role) {
-        return jdbcTemplate.update(CREATE, role.getMovieId(), role.getRole());
+        return jdbcTemplate.update(CREATE, role.getMovieId(), role.getName());
     }
 
     @Override
     public int update(Integer id, Role role) {
-        return jdbcTemplate.update(UPDATE, role.getMovieId(), role.getRole(), id);
+        return jdbcTemplate.update(UPDATE, role.getMovieId(), role.getName(), id);
     }
 
     @Override

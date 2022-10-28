@@ -13,5 +13,5 @@ public class Actor {
     private String firstName;
     private String lastName;
     private String gender;
-    private Integer birthdate;
+    private String birthdate;
 }
