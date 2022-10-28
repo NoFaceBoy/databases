@@ -17,7 +17,7 @@ WHERE name LIKE "%e%e";
 -- 3. БД «Комп. фірма». Знайдіть номер моделі та виробника принтера,
 -- яка має ціну вищу за 300 дол. Вивести: model, maker.
 
-SELECT Product.model, maker FROM Product
+SELECT Product.model, price, maker FROM Product
 JOIN Printer ON Product.model = Printer.model WHERE price > 300;
 
 -- 4. БД «Кораблі». Вивести класи всіх кораблів США ('USA'). Якщо в БД
@@ -27,7 +27,6 @@ JOIN Printer ON Product.model = Printer.model WHERE price > 300;
 SELECT country, class FROM Classes
 WHERE country = 'USA' OR NOT EXISTS(
 SELECT country, class FROM Classes
-WHERE country = 'USA'
 );
 
 -- 5. БД «Комп. фірма». Знайдіть виробників, які б випускали ПК зі
@@ -58,7 +57,7 @@ ORDER BY price ASC;
 -- 8. БД «Комп. фірма». Знайдіть максимальну ціну ПК, що випускаються кожним виробником. Вивести: maker, максимальна ціна. (Підказка:
 -- використовувати підзапити в якості обчислювальних стовпців)
 
-SELECT maker, MAX(PC.price) FROM Product
+SELECT maker, COUNT(PC.price) FROM Product
 JOIN PC ON Product.model = PC.model
 GROUP BY maker;
 
@@ -70,8 +69,7 @@ GROUP BY maker;
 -- одна стрічка. (Підказка: використовувати зовнішнє з’єднання та
 -- оператор CASE)
 
-SELECT SUM(sq.inc), sum(sq.outcome), sq.pt, sq.date
-FROM (
+SELECT SUM(sq.inc), sum(sq.outcome), sq.pt, sq.date FROM (
 SELECT Income.point pt, inc, 0 outcome , Income.date date
 FROM Income LEFT JOIN Outcome 
 ON Income.date = Outcome.date AND Income.point = Outcome.point

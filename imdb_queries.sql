@@ -41,7 +41,7 @@ JOIN ranking on ranking_id = ranking.id;
 
 SELECT name, budget FROM movie
 WHERE budget = (SELECT MAX(budget) FROM movie)
-UNION ALL
+UNION
 SELECT name, budget FROM movie
 WHERE budget = (SELECT MIN(budget) FROM movie);
 
