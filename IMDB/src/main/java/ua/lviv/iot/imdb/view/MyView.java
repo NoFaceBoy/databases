@@ -173,6 +173,7 @@ public class MyView {
         methodsMenu.put("85", this::findRoleById);
     }
 
+    // region TABLES
     private void selectAllTable() {
         findAllMovies();
         findAllActors();
@@ -183,6 +184,7 @@ public class MyView {
         findAllRankings();
         findAllRoles();
     }
+    // endregion
 
     // region MOVIE
     private void createMovie() {
@@ -246,7 +248,7 @@ public class MyView {
         System.out.println("\nTable: MOVIE");
         List<Movie> movies = movieController.findAll();
         for (Movie movie : movies) {
-            System.out.println(movie);
+            System.out.println("ID:" + movie.getId() + "\n" + "Genre id:" + movie.getGenreId() + "\n" + "Ranking id:" + movie.getRankingId() + "\n" + "Director id:" + movie.getDirectorsId() + "\n" + "Name:" + movie.getName() + "\n" + "Description:" + movie.getDescription() + "\n" + "Budget:" + movie.getBudget() + "\n" + "Year:" + movie.getYear() + "\n" + "Fact:" + movie.getFacts() + "\n" );
         }
     }
 
@@ -329,7 +331,7 @@ public class MyView {
         System.out.println("\nTable: ACTOR");
         List<Actor> actors = actorController.findAll();
         for (Actor actor : actors) {
-            System.out.println(actor);
+            System.out.println("ID:" + actor.getId() + "\n" + "Role id:" + actor.getRolesId() + "\n" + "First name:" + actor.getFirstName() + "\n" + "Last name:" + actor.getLastName() + "\n" + "Gender:" + actor.getGender() + "\n" + "Birthdate:" + actor.getBirthdate() + "\n");
         }
     }
 
@@ -388,7 +390,7 @@ public class MyView {
         System.out.println("\nTable: AWARD");
         List<Award> awards = awardController.findAll();
         for (Award award : awards) {
-            System.out.println(award);
+            System.out.println("ID:" + award.getId() + "\n" + "Movie id:" + award.getMovieId() + "\n" + "Name:" + award.getName() + "\n" + "Year" + award.getYear() + "\n");
         }
     }
 
@@ -443,7 +445,7 @@ public class MyView {
         System.out.println("\nTable: COMPANY");
         List<Company> companies = companyController.findAll();
         for (Company company : companies) {
-            System.out.println(company);
+            System.out.println("ID:" + company.getId() + "\n" + "Movie id:" + company.getMovieId() + "\n" + "Name:" + company.getName() + "\n");
         }
     }
 
@@ -506,7 +508,7 @@ public class MyView {
         System.out.println("\nTable: DIRECTOR");
         List<Director> directors = directorController.findAll();
         for (Director director : directors) {
-            System.out.println(director);
+            System.out.println("ID:" + director.getId() + "\n" + "First name:" + director.getFirstName() + "\n" + "Last name:" + director.getLastName() + "\n" + "Gender:" + director.getGender() + "\n" + "Birthdate:" + director.getBirthdate() + "\n");
         }
     }
 
@@ -557,7 +559,7 @@ public class MyView {
         System.out.println("\nTable: GENRE");
         List<Genre> genres = genreController.findAll();
         for (Genre genre : genres) {
-            System.out.println(genre);
+            System.out.println("ID:" + genre.getId() + "\n" + "Type:" + genre.getType() + "\n");
         }
     }
 
@@ -621,7 +623,7 @@ public class MyView {
         System.out.println("\nTable: RANKING");
         List<Ranking> rankings = rankingController.findAll();
         for (Ranking ranking : rankings) {
-            System.out.println(ranking);
+            System.out.println("ID:" + ranking.getId() + "\n" + "Rating:" + ranking.getRating() + "\n" + "Number of user rates:" + ranking.getNumberOfUserRates() + "\n" + "Metascore:" + ranking.getMetascore() + "\n" + "Number of critic rates:" + ranking.getNumberOfCriticRates() + "\n");
         }
     }
 
@@ -676,7 +678,7 @@ public class MyView {
         System.out.println("\nTable: ROLE");
         List<Role> roles = roleController.findAll();
         for (Role role : roles) {
-            System.out.println(role);
+            System.out.println("ID:" + role.getId() + "\n" + "Movie id:" + role.getMovieId() + "\n" + "Name:" + role.getName() + "\n");
         }
     }
 
@@ -690,7 +692,7 @@ public class MyView {
 
     //endregion
 
-    // region output
+    // region OUTPUT
     private void outputMenu() {
         System.out.println("\nMENU:");
         for (String key : menu.keySet())

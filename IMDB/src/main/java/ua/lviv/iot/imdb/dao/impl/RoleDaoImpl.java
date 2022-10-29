@@ -15,8 +15,8 @@ import java.util.Optional;
 @Service
 public class RoleDaoImpl implements RoleDao {
     private static final String FIND_ALL = "SELECT * FROM role";
-    private static final String CREATE = "INSERT role(movie_id, role) VALUES (?)";
-    private static final String UPDATE = "UPDATE role SET movie_id=?, role=? WHERE id=?";
+    private static final String CREATE = "INSERT role(movie_id, name) VALUES (?, ?)";
+    private static final String UPDATE = "UPDATE role SET movie_id=?, name=? WHERE id=?";
     private static final String DELETE = "DELETE FROM role WHERE id=?";
     private static final String FIND_BY_ID = "SELECT * FROM role WHERE id=?";
 
