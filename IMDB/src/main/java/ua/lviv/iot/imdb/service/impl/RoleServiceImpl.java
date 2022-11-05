@@ -2,40 +2,51 @@ package ua.lviv.iot.imdb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.lviv.iot.imdb.dao.RoleDao;
 import ua.lviv.iot.imdb.domain.Role;
+import ua.lviv.iot.imdb.exception.RoleNotFoundException;
+import ua.lviv.iot.imdb.repository.RoleRepository;
+import ua.lviv.iot.imdb.repository.MovieRepository;
 import ua.lviv.iot.imdb.service.RoleService;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RoleServiceImpl implements RoleService {
     @Autowired
-    private RoleDao roleDao;
+    RoleRepository roleRepository;
+    @Autowired
+    MovieRepository movieRepository;
 
-    @Override
+    public Role findById(Integer id) {
+        return roleRepository.findById(id)
+                .orElseThrow(() -> new RoleNotFoundException(id));
+    }
+
     public List<Role> findAll() {
-        return roleDao.findAll();
+        return roleRepository.findAll();
     }
 
-    @Override
-    public Optional<Role> findById(Integer id) {
-        return roleDao.findById(id);
+    @Transactional
+    public Role create(Role role) {
+        roleRepository.save(role);
+        return role;
     }
 
-    @Override
-    public int create(Role role) {
-        return roleDao.create(role);
+    @Transactional
+    public void update(Integer id, Role uRole) {
+        Role role = roleRepository.findById(id)
+                .orElseThrow(() -> new RoleNotFoundException(id));
+        //update
+        role.setName(uRole.getName());
+        roleRepository.save(role);
     }
 
-    @Override
-    public int update(Integer id, Role role) {
-        return roleDao.update(id, role);
-    }
-
-    @Override
-    public int delete(Integer id) {
-        return roleDao.delete(id);
+    @Transactional
+    public void delete(Integer id) {
+        Role role = roleRepository.findById(id)
+                .orElseThrow(() -> new RoleNotFoundException(id));
+        roleRepository.delete(role);
     }
 }
+

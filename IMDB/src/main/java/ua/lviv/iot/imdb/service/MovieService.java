@@ -1,11 +1,11 @@
 package ua.lviv.iot.imdb.service;
 
+import ua.lviv.iot.imdb.domain.Award;
 import ua.lviv.iot.imdb.domain.Movie;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface MovieService extends GeneralService<Movie, Integer> {
-    Optional<Movie> findByMovieName(String bookName);
-
-    Optional<Movie> findByYear(Integer year);
+    public List<Award> findAwardsById(Integer id);
+    public List<Movie> findMoviesByCompanyId(Integer id);
 }
