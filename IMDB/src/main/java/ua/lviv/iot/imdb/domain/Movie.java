@@ -34,7 +34,7 @@ public class Movie {
     @ManyToOne
     @JoinColumn(name = "directors_id", referencedColumnName = "id", nullable = false)
     private Director director;
-    @ManyToMany(mappedBy = "awards")
+    @ManyToMany(mappedBy = "movies")
     private Set<Award> awards;
 
     public Integer getId() {
@@ -126,7 +126,7 @@ public class Movie {
         return awards;
     }
 
-    public void setAwards(Set<Award> movies) {
+    public void setAwards(Set<Award> awards) {
         this.awards = awards;
     }
 }

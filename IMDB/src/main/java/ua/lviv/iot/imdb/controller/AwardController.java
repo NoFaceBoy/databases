@@ -2,16 +2,23 @@ package ua.lviv.iot.imdb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.lviv.iot.imdb.domain.Award;
+import ua.lviv.iot.imdb.domain.Movie;
 import ua.lviv.iot.imdb.dto.AwardDto;
+import ua.lviv.iot.imdb.dto.MovieDto;
 import ua.lviv.iot.imdb.dto.assembler.AwardDtoAssembler;
+import ua.lviv.iot.imdb.dto.assembler.MovieDtoAssembler;
 import ua.lviv.iot.imdb.service.AwardService;
-import ua.lviv.iot.imdb.service.MovieService;
+
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @RestController
@@ -21,6 +28,8 @@ public class AwardController {
     private AwardService awardService;
     @Autowired
     private AwardDtoAssembler awardDtoAssembler;
+    @Autowired
+    private MovieDtoAssembler movieDtoAssembler;
 
     @GetMapping(value = "/{awardId}")
     public ResponseEntity<AwardDto> getAward(@PathVariable Integer awardId) {
@@ -54,4 +63,13 @@ public class AwardController {
         awardService.delete(awardId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/{awardId}/movies")
+    public ResponseEntity<CollectionModel<MovieDto>> getAllMoviesForAward(@PathVariable Integer awardId) {
+        List<Movie> movies = awardService.findMoviesByAwardId(awardId);
+        Link selfLink = linkTo(methodOn(AwardController.class).getAllMoviesForAward(awardId)).withSelfRel();
+        CollectionModel<MovieDto> movieDtos = movieDtoAssembler.toCollectionModel(movies, selfLink);
+        return new ResponseEntity<>(movieDtos, HttpStatus.OK);
+    }
+
 }

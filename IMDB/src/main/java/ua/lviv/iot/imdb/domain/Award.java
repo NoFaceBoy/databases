@@ -18,7 +18,7 @@ public class Award {
     private List<Nomination> nominations;
     @ManyToMany
     @JoinTable(name = "award_movie", catalog = "", schema = "teliuk", joinColumns = @JoinColumn(name = "award_id", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id", nullable = false))
-    private Set<Movie> awards;
+    private Set<Movie> movies;
 
     public Integer getId() {
         return id;
@@ -57,11 +57,11 @@ public class Award {
         this.nominations = nominations;
     }
 
-    public Set<Movie> getAwards() {
-        return awards;
+    public Set<Movie> getMovies() {
+        return movies;
     }
 
-    public void setAwards(Set<Movie> awards) {
-        this.awards = awards;
+    public void setMovies(Set<Movie> movies) {
+        this.movies = movies;
     }
 }

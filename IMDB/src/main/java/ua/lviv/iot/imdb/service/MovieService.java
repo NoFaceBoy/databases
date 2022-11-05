@@ -6,6 +6,6 @@ import ua.lviv.iot.imdb.domain.Movie;
 import java.util.List;
 
 public interface MovieService extends GeneralService<Movie, Integer> {
-    public List<Award> findAwardsById(Integer id);
+    public List<Award> findAwardsByMovieId(Integer id);
     public List<Movie> findMoviesByCompanyId(Integer id);
 }

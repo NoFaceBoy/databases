@@ -62,7 +62,7 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.delete(movie);
     }
 
-    public List<Award> findAwardsById(Integer id) {
+    public List<Award> findAwardsByMovieId(Integer id) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException(id));
         return movie.getAwards().stream().toList();
@@ -76,4 +76,3 @@ public class MovieServiceImpl implements MovieService {
     }
 
 }
-

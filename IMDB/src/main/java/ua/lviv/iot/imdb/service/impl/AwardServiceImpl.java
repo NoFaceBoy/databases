@@ -3,7 +3,9 @@ package ua.lviv.iot.imdb.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.imdb.domain.Award;
+import ua.lviv.iot.imdb.domain.Movie;
 import ua.lviv.iot.imdb.exception.AwardNotFoundException;
+import ua.lviv.iot.imdb.exception.MovieNotFoundException;
 import ua.lviv.iot.imdb.repository.AwardRepository;
 import ua.lviv.iot.imdb.service.AwardService;
 
@@ -45,5 +47,10 @@ public class AwardServiceImpl implements AwardService {
                 .orElseThrow(() -> new AwardNotFoundException(id));
         awardRepository.delete(award);
     }
-}
 
+    public List<Movie> findMoviesByAwardId(Integer id) {
+        Award award = awardRepository.findById(id)
+                .orElseThrow(() -> new AwardNotFoundException(id));
+        return award.getMovies().stream().toList();
+    }
+}

@@ -64,7 +64,7 @@ public class MovieController {
 
     @GetMapping(value = "/{movieId}/awards")
     public ResponseEntity<CollectionModel<AwardDto>> getAllAwardsForMovie(@PathVariable Integer movieId) {
-        List<Award> awards = movieService.findAwardsById(movieId);
+        List<Award> awards = movieService.findAwardsByMovieId(movieId);
         Link selfLink = linkTo(methodOn(MovieController.class).getAllAwardsForMovie(movieId)).withSelfRel();
         CollectionModel<AwardDto> awardDtos = awardDtoAssembler.toCollectionModel(awards, selfLink);
         return new ResponseEntity<>(awardDtos, HttpStatus.OK);
