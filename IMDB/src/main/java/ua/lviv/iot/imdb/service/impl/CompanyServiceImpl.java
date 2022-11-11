@@ -2,40 +2,48 @@ package ua.lviv.iot.imdb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.lviv.iot.imdb.dao.CompanyDao;
 import ua.lviv.iot.imdb.domain.Company;
+import ua.lviv.iot.imdb.exception.CompanyNotFoundException;
+import ua.lviv.iot.imdb.repository.CompanyRepository;
 import ua.lviv.iot.imdb.service.CompanyService;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
-    private CompanyDao companyDao;
+    CompanyRepository companyRepository;
 
-    @Override
+    public Company findById(Integer id) {
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new CompanyNotFoundException(id));
+    }
+
     public List<Company> findAll() {
-        return companyDao.findAll();
+        return companyRepository.findAll();
     }
 
-    @Override
-    public Optional<Company> findById(Integer id) {
-        return companyDao.findById(id);
+    @Transactional
+    public Company create(Company company) {
+        companyRepository.save(company);
+        return company;
     }
 
-    @Override
-    public int create(Company company) {
-        return companyDao.create(company);
+    @Transactional
+    public void update(Integer id, Company uCompany) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new CompanyNotFoundException(id));
+        //update
+        company.setName(uCompany.getName());
+        companyRepository.save(company);
     }
 
-    @Override
-    public int update(Integer id, Company company) {
-        return companyDao.update(id, company);
-    }
-
-    @Override
-    public int delete(Integer id) {
-        return companyDao.delete(id);
+    @Transactional
+    public void delete(Integer id) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new CompanyNotFoundException(id));
+        companyRepository.delete(company);
     }
 }
+

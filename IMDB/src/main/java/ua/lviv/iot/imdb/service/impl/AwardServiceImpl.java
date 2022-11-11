@@ -2,40 +2,55 @@ package ua.lviv.iot.imdb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.lviv.iot.imdb.dao.AwardDao;
 import ua.lviv.iot.imdb.domain.Award;
+import ua.lviv.iot.imdb.domain.Movie;
+import ua.lviv.iot.imdb.exception.AwardNotFoundException;
+import ua.lviv.iot.imdb.exception.MovieNotFoundException;
+import ua.lviv.iot.imdb.repository.AwardRepository;
 import ua.lviv.iot.imdb.service.AwardService;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AwardServiceImpl implements AwardService {
     @Autowired
-    private AwardDao awardDao;
+    AwardRepository awardRepository;
 
-    @Override
+    public Award findById(Integer id) {
+        return awardRepository.findById(id)
+                .orElseThrow(() -> new AwardNotFoundException(id));
+    }
+
     public List<Award> findAll() {
-        return awardDao.findAll();
+        return awardRepository.findAll();
     }
 
-    @Override
-    public Optional<Award> findById(Integer id) {
-        return awardDao.findById(id);
+    @Transactional
+    public Award create(Award award) {
+        awardRepository.save(award);
+        return award;
     }
 
-    @Override
-    public int create(Award award) {
-        return awardDao.create(award);
+    @Transactional
+    public void update(Integer id, Award uAward) {
+        Award award = awardRepository.findById(id)
+                .orElseThrow(() -> new AwardNotFoundException(id));
+        //update
+        award.setName(uAward.getName());
+        awardRepository.save(award);
     }
 
-    @Override
-    public int update(Integer id, Award award) {
-        return awardDao.update(id, award);
+    @Transactional
+    public void delete(Integer id) {
+        Award award = awardRepository.findById(id)
+                .orElseThrow(() -> new AwardNotFoundException(id));
+        awardRepository.delete(award);
     }
 
-    @Override
-    public int delete(Integer id) {
-        return awardDao.delete(id);
+    public List<Movie> findMoviesByAwardId(Integer id) {
+        Award award = awardRepository.findById(id)
+                .orElseThrow(() -> new AwardNotFoundException(id));
+        return award.getMovies().stream().toList();
     }
 }

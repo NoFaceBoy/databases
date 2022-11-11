@@ -2,40 +2,51 @@ package ua.lviv.iot.imdb.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.lviv.iot.imdb.dao.DirectorDao;
 import ua.lviv.iot.imdb.domain.Director;
+import ua.lviv.iot.imdb.exception.DirectorNotFoundException;
+import ua.lviv.iot.imdb.repository.DirectorRepository;
 import ua.lviv.iot.imdb.service.DirectorService;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DirectorServiceImpl implements DirectorService {
     @Autowired
-    private DirectorDao directorDao;
+    DirectorRepository directorRepository;
 
-    @Override
+    public Director findById(Integer id) {
+        return directorRepository.findById(id)
+                .orElseThrow(() -> new DirectorNotFoundException(id));
+    }
+
     public List<Director> findAll() {
-        return directorDao.findAll();
+        return directorRepository.findAll();
     }
 
-    @Override
-    public Optional<Director> findById(Integer id) {
-        return directorDao.findById(id);
+    @Transactional
+    public Director create(Director director) {
+        directorRepository.save(director);
+        return director;
     }
 
-    @Override
-    public int create(Director director) {
-        return directorDao.create(director);
+    @Transactional
+    public void update(Integer id, Director uDirector) {
+        Director director = directorRepository.findById(id)
+                .orElseThrow(() -> new DirectorNotFoundException(id));
+        //update
+        director.setFirstName(uDirector.getFirstName());
+        director.setLastName(uDirector.getLastName());
+        director.setGender(uDirector.getGender());
+        director.setBirthdate(uDirector.getBirthdate());
+        directorRepository.save(director);
     }
 
-    @Override
-    public int update(Integer id, Director director) {
-        return directorDao.update(id, director);
-    }
-
-    @Override
-    public int delete(Integer id) {
-        return directorDao.delete(id);
+    @Transactional
+    public void delete(Integer id) {
+        Director director = directorRepository.findById(id)
+                .orElseThrow(() -> new DirectorNotFoundException(id));
+        directorRepository.delete(director);
     }
 }
+

@@ -1,41 +1,55 @@
 package ua.lviv.iot.imdb.service.impl;
 
-import ua.lviv.iot.imdb.dao.ActorDao;
-import ua.lviv.iot.imdb.domain.Actor;
-import ua.lviv.iot.imdb.service.ActorService;
+import  ua.lviv.iot.imdb.domain.Actor;
+import  ua.lviv.iot.imdb.exception.ActorNotFoundException;
+import  ua.lviv.iot.imdb.repository.ActorRepository;
+import  ua.lviv.iot.imdb.repository.RoleRepository;
+import  ua.lviv.iot.imdb.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ActorServiceImpl implements ActorService {
     @Autowired
-    private ActorDao actorDao;
+    ActorRepository actorRepository;
+    @Autowired
+    RoleRepository roleRepository;
 
-    @Override
+    public Actor findById(Integer id) {
+        return actorRepository.findById(id)
+                .orElseThrow(() -> new ActorNotFoundException(id));
+    }
+
     public List<Actor> findAll() {
-        return actorDao.findAll();
+        return actorRepository.findAll();
     }
 
-    @Override
-    public Optional<Actor> findById(Integer id) {
-        return actorDao.findById(id);
+    @Transactional
+    public Actor create(Actor actor) {
+        actorRepository.save(actor);
+        return actor;
     }
 
-    @Override
-    public int create(Actor actor) {
-        return actorDao.create(actor);
+    @Transactional
+    public void update(Integer id, Actor uActor) {
+        Actor actor = actorRepository.findById(id)
+                .orElseThrow(() -> new ActorNotFoundException(id));
+        //update
+        actor.setFirstName(uActor.getFirstName());
+        actor.setLastName(uActor.getLastName());
+        actor.setGender(uActor.getGender());
+        actor.setBirthdate(uActor.getBirthdate());
+        actorRepository.save(actor);
     }
 
-    @Override
-    public int update(Integer id, Actor actor) {
-        return actorDao.update(id, actor);
-    }
-
-    @Override
-    public int delete(Integer id) {
-        return actorDao.delete(id);
+    @Transactional
+    public void delete(Integer id) {
+        Actor actor = actorRepository.findById(id)
+                .orElseThrow(() -> new ActorNotFoundException(id));
+        actorRepository.delete(actor);
     }
 }
+
