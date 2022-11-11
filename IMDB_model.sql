@@ -17,19 +17,20 @@ USE `teliuk` ;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`director`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`director` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(25) NOT NULL,
   `last_name` VARCHAR(25) NOT NULL,
   `gender` VARCHAR(20) NULL DEFAULT NULL,
   `birthdate` DATE NOT NULL,
   PRIMARY KEY (`id`));
-
+CREATE INDEX `director_first_name` ON `director` (`first_name`);
+CREATE INDEX `director_last_name` ON `director` (`last_name`);
 -- -----------------------------------------------------
 -- Table `teliuk`.`genre`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`genre`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`genre` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`));
 
@@ -38,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `teliuk`.`genre` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`ranking`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`ranking` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `rating` INT NULL DEFAULT NULL,
   `number_of_user_rates` INT NULL DEFAULT NULL,
   `metascore` INT NULL DEFAULT NULL,
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `teliuk`.`ranking` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`movie`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`movie` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `genre_id` INT NOT NULL,
   `ranking_id` INT NOT NULL,
   `directors_id` INT NOT NULL,
@@ -72,15 +73,16 @@ CREATE TABLE IF NOT EXISTS `teliuk`.`movie` (
   CONSTRAINT `movie_ranking`
     FOREIGN KEY (`ranking_id`)
     REFERENCES `teliuk`.`ranking` (`id`));
-
+    
+CREATE INDEX `movie_year` ON `movie` (`year`);
 -- -----------------------------------------------------
 -- Table `teliuk`.`role`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`role`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`role` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `movie_id` INT NOT NULL,
-  `role` VARCHAR(50) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `roles_movie` (`movie_id` ASC) VISIBLE,
   CONSTRAINT `roles_movie`
@@ -92,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `teliuk`.`role` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`actor`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`actor` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `roles_id` INT NOT NULL,
   `first_name` VARCHAR(25) NOT NULL,
   `last_name` VARCHAR(25) NOT NULL,
@@ -103,13 +105,15 @@ CREATE TABLE IF NOT EXISTS `teliuk`.`actor` (
   CONSTRAINT `actor_roles`
     FOREIGN KEY (`roles_id`)
     REFERENCES `teliuk`.`role` (`id`));
-
+    
+CREATE INDEX `actor_first_name` ON `actor` (`first_name`);
+CREATE INDEX `actor_last_name` ON `actor` (`last_name`);
 -- -----------------------------------------------------
 -- Table `teliuk`.`award`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`award`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`award` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `movie_id` INT NOT NULL,
   `name` VARCHAR(30) NOT NULL,
   `year` INT NOT NULL,
@@ -124,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `teliuk`.`award` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`company`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`company` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `movie_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
@@ -138,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `teliuk`.`company` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`critic_review`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`critic_review` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `ranking_id` INT NOT NULL,
   `first_name` VARCHAR(25) NOT NULL,
   `last_name` VARCHAR(25) NOT NULL,
@@ -155,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `teliuk`.`critic_review` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`nomination`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`nomination` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `award_id` INT NOT NULL,
   `type` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
@@ -169,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `teliuk`.`nomination` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `teliuk`.`user_review`;
 CREATE TABLE IF NOT EXISTS `teliuk`.`user_review` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `ranking_id` INT NOT NULL,
   `rate` INT NOT NULL,
   `message` VARCHAR(300) NULL DEFAULT NULL,
@@ -190,11 +194,13 @@ VALUES
 (1, 'George', 'Lucas', 'Male', '1944-05-14'),
 (2, 'Christopher', 'Nolan', 'Male', '1970-07-30'),
 (3, 'Stanley', 'Kubrick', 'Male', '1928-07-26'),
-(4, 'John', 'McTiernan', 'Male', '1951-01-08'),
+(4, 'James', 'McTiernan', 'Male', '1951-01-08'),
 (5, 'Martin', 'Scorsese', 'Male', '1942-11-17'),
 (6, 'Ron', 'Howard', 'Male', '1954-03-01'),
 (7, 'James', 'Cameron', 'Male', '1954-08-16'),
-(8, 'Steven', 'Spielberg', 'Male', '1946-12-18');
+(8, 'Steven', 'Spielberg', 'Male', '1946-12-18'),
+(9, 'Quentin', 'Tarantino', 'Male', '1963-03-27'),
+(10, 'Ridley', 'Scott', 'Male', '1937-11-30');
 -- -----------------------------------------------------
 -- Data for table `teliuk`.`genre`
 -- -----------------------------------------------------
@@ -207,7 +213,10 @@ VALUES
 (4, 'adventure'),
 (5, 'thriller'),
 (6, 'horror'),
-(7, 'fantasy');
+(7, 'fantasy'),
+(8, 'romance'),
+(9, 'documentary'),
+(10, 'detective');
 -- -----------------------------------------------------
 -- Data for table `teliuk`.`ranking`
 -- -----------------------------------------------------
@@ -239,12 +248,12 @@ VALUES
 (7, 2, 7, 6, 'A Beautiful Mind', 'After John Nash, a brilliant but asocial mathematician, accepts secret work in cryptography, his life takes a turn for the nightmarish.', 58000000, 2001, 'There is no \"ceremony of the pens\" at Princeton University.'),
 (8, 4, 8, 8, 'Jurassic Park', 'A pragmatic paleontologist touring an almost complete theme park on an island in Central America is tasked with protecting a couple of kids after a power failure causes the park\'s cloned dinosaurs to run loose.', 63000000, 1993, 'When they arrive at the T. rex cage right before the black out, we can clearly see the ground inside the cage is approximately flush with that outside the cage. But when the T. rex escapes and begins to terrorize the two trucks, the ground in the cage is shown to be at least 100 feet below where it was before.'),
 (9, 1, 9, 7, 'The Terminator', 'A human soldier is sent from 2029 to 1984 to stop an almost indestructible cyborg killing machine, sent from the same year, which has been programmed to execute a young woman whose unborn son is the key to humanity\'s future salvation.', 6400000, 1984, 'Newton\'s Third Law establishes that bullets and shotgun blasts do not have the momentum to knock a human body backwards, although the trauma of being shot may cause them to fall backward.'),
-(10, 2, 10, 6, 'Rush', 'The merciless 1970s rivalry between Formula One rivals James Hunt and Niki Lauda.', 38000000, 2013, 'Throughout the film Niki Lauda\'s nationality is shown in the stats abbreviated as AUS - this would be the international code for Australia. Austria\'s code is AUT.');
+(10, 2, 10, 6, 'Rush', 'The merciless 1970s rivalry between Formula One rivals James Hunt and Niki Lauda.', 38000000, 2012, 'Throughout the film Niki Lauda\'s nationality is shown in the stats abbreviated as AUS - this would be the international code for Australia. Austria\'s code is AUT.');
 -- -----------------------------------------------------
 -- Data for table `teliuk`.`role`
 -- -----------------------------------------------------
 INSERT INTO 
-`teliuk`.`role` (`id`, `movie_id`, `role`) 
+`teliuk`.`role` (`id`, `movie_id`, `name`) 
 VALUES 
 (1, 1, 'Luke Skywalker'),
 (2, 1, 'Han Solo'),
@@ -309,7 +318,14 @@ VALUES
 (2, 1, 'George', 'Findel', 94, 'Awesome'),
 (3, 2, 'Rod', 'Pirten', 78, 'Incredible'),
 (4, 3, 'Henry', 'Ford', 32, 'Bad'),
-(5, 3, 'Tom', 'Jerry', 56, 'Common');
+(5, 3, 'Tom', 'Jerry', 56, 'Common'),
+(6, 2, 'Nellie', 'Holland', 52, 'OK'),
+(7, 3, 'Casey', 'Carter', 56, 'Common'),
+(8, 3, 'Callum', 'Austin', 95, 'Wow'),
+(9, 1, 'Sidra', 'Shepard', 84, 'Fine'),
+(10, 3, 'Kody', 'Hawes', 32, 'Ew'),
+(11, 2, 'Oakley', 'Diaz', 93, 'The best'),
+(12, 1, 'Nisha', 'Rhodes', 54, 'Can be');
 -- -----------------------------------------------------
 -- Data for table `teliuk`.`nomination`
 -- -----------------------------------------------------
@@ -332,7 +348,7 @@ VALUES
 INSERT INTO 
 `teliuk`.`user_review` (`id`, `ranking_id`, `rate`, `message`, `username`, `posted_at`) 
 VALUES 
-(1, 1, 8, 'Great film', 'Yukee', '2018-12-25, 23:39:12'),
-(2, 1, 1, 'Boring film', 'IWANNAMAKEUCRY', '2022-09-18, 13:10:11'),
-(3, 2, 10, 'Awesome film', 'NoFaceBoy', '2017-03-23, 15:55:55'),
-(4, 3, 5, 'Average film', 'M1dwary', '2020-07-02, 12:07:04');
+(1, 1, 8, 'Great film', 'Yukee', '2018-12-25 23:39:12'),
+(2, 1, 1, 'Boring film', 'IWANNAMAKEUCRY', '2022-09-18 13:10:11'),
+(3, 2, 10, 'Awesome film', 'NoFaceBoy', '2017-03-23 15:55:55'),
+(4, 3, 5, 'Average film', 'M1dwary', '2020-07-02 12:07:04');
