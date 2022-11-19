@@ -1,0 +1,10 @@
+USE teliuk;
+
+DROP FUNCTION IF EXISTS getAverageBudget;
+DELIMITER //
+CREATE FUNCTION getAverageBudget()
+    RETURNS DECIMAL DETERMINISTIC
+BEGIN
+    RETURN (SELECT AVG(budget) FROM `movie` AS average_budget);
+END //
+DELIMITER ;

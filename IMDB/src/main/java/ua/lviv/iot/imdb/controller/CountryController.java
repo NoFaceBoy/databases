@@ -52,4 +52,16 @@ public class CountryController {
         countryService.delete(countryId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/parametrized")
+    public ResponseEntity<CountryDto> addParametrizedCountry(@RequestBody CountryDto country) {
+        CountryDto countryDto = countryService.parametrizedInsertIntoTable(country);
+        return new ResponseEntity<>(countryDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/insert_numbered")
+    public ResponseEntity<?> insertNumberedRecords() {
+        countryService.insertNumberedRecords();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -47,10 +47,15 @@ public class AwardServiceImpl implements AwardService {
                 .orElseThrow(() -> new AwardNotFoundException(id));
         awardRepository.delete(award);
     }
-
+    @Transactional
     public List<Movie> findMoviesByAwardId(Integer id) {
         Award award = awardRepository.findById(id)
                 .orElseThrow(() -> new AwardNotFoundException(id));
         return award.getMovies().stream().toList();
+    }
+
+    @Transactional
+    public void createAwardMovieRelationship(String awardName, String movieName) {
+        awardRepository.createAwardMovieRelationship(awardName, movieName);
     }
 }
