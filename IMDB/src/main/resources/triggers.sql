@@ -91,58 +91,9 @@ CREATE TRIGGER check_description
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Description must contain more then 10 symbols';
     END IF //;
-DELIMITER ;
 
-
-DROP TRIGGER IF EXISTS check_date_format;
+DROP TRIGGER IF EXISTS prevent_country_delete;
 DELIMITER //
-CREATE TRIGGER check_date_format
-    BEFORE INSERT
-    ON `teliuk`.`director` FOR EACH ROW
-BEGIN
-    IF (NEW.birthdate NOT RLIKE '[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]')
-    THEN SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Invalid date format';
-    END IF;
-END //
-
-DROP TRIGGER IF EXISTS check_date_format //
-CREATE TRIGGER check_date_format
-    BEFORE UPDATE
-    ON `teliuk`.`director`
-    FOR EACH ROW
-BEGIN
-    IF (NEW.birthdate NOT RLIKE '[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]')
-    THEN SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Invalid date format';
-    END IF;
-END //
-
-DROP TRIGGER IF EXISTS check_date_format;
-DELIMITER //
-CREATE TRIGGER check_date_format
-    BEFORE INSERT
-    ON `teliuk`.`actor` FOR EACH ROW
-BEGIN
-    IF (NEW.birthdate NOT RLIKE '[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]')
-    THEN SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Invalid date format';
-    END IF;
-END //
-
-DROP TRIGGER IF EXISTS check_date_format //
-CREATE TRIGGER check_date_format
-    BEFORE UPDATE
-    ON `teliuk`.`actor`
-    FOR EACH ROW
-BEGIN
-    IF (NEW.birthdate NOT RLIKE '[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]')
-    THEN SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Invalid date format';
-    END IF;
-END //
-
-DROP TRIGGER IF EXISTS prevent_country_delete //
 CREATE TRIGGER prevent_country_delete
     BEFORE DELETE
     ON `teliuk`.`country`

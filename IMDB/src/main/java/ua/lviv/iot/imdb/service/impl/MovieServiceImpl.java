@@ -81,4 +81,8 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.getAverageBudget();
     }
 
+    @Override
+    public void createTablesUsingCursor() {
+        movieRepository.createTablesUsingCursor();
+    }
 }

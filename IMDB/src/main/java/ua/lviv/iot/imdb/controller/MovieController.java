@@ -84,4 +84,10 @@ public class MovieController {
         BigDecimal averageBudget = movieService.getAverageBudget();
         return new ResponseEntity<>(averageBudget, HttpStatus.OK);
     }
+
+    @PostMapping("/create-tables")
+    public ResponseEntity<?> createTablesUsingCursor() {
+        movieService.createTablesUsingCursor();
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

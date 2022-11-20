@@ -1,7 +1,7 @@
 USE teliuk;
 
-DROP PROCEDURE IF EXISTS country_param_insert;
 DELIMITER //
+DROP PROCEDURE IF EXISTS country_param_insert //
 CREATE PROCEDURE country_param_insert(
     IN new_country_name VARCHAR(20),
     OUT new_id INT
@@ -10,11 +10,9 @@ BEGIN
     INSERT INTO teliuk.country (name) VALUE (new_country_name);
     SELECT id INTO new_id FROM teliuk.country WHERE name = new_country_name;
 END //
-DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS count_average_budget;
-DELIMITER //
+DROP PROCEDURE IF EXISTS count_average_budget //
 CREATE PROCEDURE count_average_budget()
 BEGIN
     SELECT getAverageBudget();
@@ -43,8 +41,7 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS insert_numbered_records;
-DELIMITER //
+DROP PROCEDURE IF EXISTS insert_numbered_records //
 CREATE PROCEDURE insert_numbered_records()
 BEGIN
     DECLARE number_of_inserts INT DEFAULT 1;
@@ -56,4 +53,36 @@ BEGIN
             SET number_of_inserts = number_of_inserts + 1;
         END WHILE;
 END //
+
+DROP PROCEDURE IF EXISTS create_tables_using_cursor //
+CREATE PROCEDURE create_tables_using_cursor()
+BEGIN
+    DECLARE amount INT;
+    DECLARE done BOOL DEFAULT false;
+    DECLARE movie_name VARCHAR(255);
+    DECLARE movies_cursor CURSOR FOR SELECT `first_name` from `actor`;
+    DECLARE CONTINUE HANDLER
+        FOR NOT FOUND SET done = true;
+    OPEN movies_cursor;
+    create_tables: LOOP
+        FETCH movies_cursor into movie_name;
+        IF done THEN LEAVE create_tables;
+        END IF;
+        SET amount=FLOOR(RAND()*(9-1+1)+2);
+        SET @temp_query = CONCAT('CREATE TABLE IF NOT EXISTS ', movie_name, NOW()+1, ' (');
+        create_columns: LOOP
+            IF amount <= 0 THEN LEAVE create_columns;
+            END IF;
+
+            SET @temp_query = CONCAT(@temp_query, ' column', amount, ' int');
+            SET amount = amount - 1;
+            IF amount != 0 THEN SET @temp_query = CONCAT(@temp_query, ',');
+            END IF;
+        END LOOP create_columns;
+        SET @temp_query=CONCAT(@temp_query, ' );');
+        PREPARE table_query FROM @temp_query;
+        EXECUTE table_query;
+    END LOOP create_tables;
+    CLOSE movies_cursor;
+END//
 DELIMITER ;

@@ -60,8 +60,6 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public void insertNumberedRecords() {
-        countryRepository.insertNumberedRecords();
-    }
+    public void insertNumberedRecords() { countryRepository.insertNumberedRecords(); }
 }
 
