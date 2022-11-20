@@ -1,6 +1,7 @@
 USE `teliuk`;
-
 DELIMITER //
+
+-- Перевірка чи існує країна перед створенням.
 DROP TRIGGER IF EXISTS check_if_country_exists //
 CREATE TRIGGER check_if_country_exists
     BEFORE INSERT
@@ -17,7 +18,7 @@ BEGIN
     END IF;
 END //
 
-
+-- Перевірка чи існує країна перед оновленням.
 DROP TRIGGER IF EXISTS check_if_country_exists //
 CREATE TRIGGER check_if_country_exists
     BEFORE UPDATE
@@ -34,7 +35,7 @@ BEGIN
     END IF;
 END //
 
-
+-- Перевірка чи використовується країна перед оновленням
 DROP TRIGGER IF EXISTS check_if_country_id_used //
 CREATE TRIGGER check_if_country_id_used
     BEFORE UPDATE
@@ -51,7 +52,7 @@ BEGIN
     END IF;
 END //
 
-
+-- Перевірка чи використовується країна перед видаленням
 DROP TRIGGER IF EXISTS check_if_country_id_used //
 CREATE TRIGGER check_if_country_id_used
     BEFORE DELETE
@@ -69,6 +70,7 @@ BEGIN
     END IF;
 END //
 
+-- Перевірка чи опис фільму містить < 10 символів перед створенням.
 DROP TRIGGER IF EXISTS check_description;
 DELIMITER //
 CREATE TRIGGER check_description
@@ -81,6 +83,7 @@ CREATE TRIGGER check_description
     END IF //;
 DELIMITER ;
 
+-- Перевірка чи опис фільму містить < 10 символів перед оновленням.
 DROP TRIGGER IF EXISTS check_description;
 DELIMITER //
 CREATE TRIGGER check_description
@@ -92,6 +95,7 @@ CREATE TRIGGER check_description
             SET MESSAGE_TEXT = 'Description must contain more then 10 symbols';
     END IF //;
 
+-- Заборона на видалення країни.
 DROP TRIGGER IF EXISTS prevent_country_delete;
 DELIMITER //
 CREATE TRIGGER prevent_country_delete
@@ -103,6 +107,7 @@ BEGIN
         SET MESSAGE_TEXT = 'Deletion of the country has been prevented`';
 END //
 
+-- Перевірка чи ім'я директора дорівнює заданим.
 DROP TRIGGER IF EXISTS check_director_names //
 CREATE TRIGGER check_director_names
     BEFORE INSERT

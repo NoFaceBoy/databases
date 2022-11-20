@@ -1,6 +1,7 @@
 USE teliuk;
-
 DELIMITER //
+
+-- Параметризована вставка нових значень у таблицю.
 DROP PROCEDURE IF EXISTS country_param_insert //
 CREATE PROCEDURE country_param_insert(
     IN new_country_name VARCHAR(20),
@@ -11,14 +12,14 @@ BEGIN
     SELECT id INTO new_id FROM teliuk.country WHERE name = new_country_name;
 END //
 
-
+-- Функція, яка рахує Avg для стовпця таблиці у БД.
 DROP PROCEDURE IF EXISTS count_average_budget //
 CREATE PROCEDURE count_average_budget()
 BEGIN
     SELECT getAverageBudget();
 END //
 
-
+-- Забезпечити реалізацію зв’язку М:М між 2ма таблицями, вставити в стикувальну таблицю відповідну стрічку за реально-існуючими значеннями в цих основних таблицях.
 DROP PROCEDURE IF EXISTS create_award_movie_relationship //
 CREATE PROCEDURE create_award_movie_relationship(
     IN award_name VARCHAR(50),
@@ -40,7 +41,7 @@ BEGIN
     INSERT INTO `award_movie` (award_id, movie_id) VALUES (award_id, movie_id);
 END //
 
-
+-- Пакет, який вставляє 10 стрічок у таблицю БД у форматі < Noname+№>.
 DROP PROCEDURE IF EXISTS insert_numbered_records //
 CREATE PROCEDURE insert_numbered_records()
 BEGIN
@@ -54,6 +55,7 @@ BEGIN
         END WHILE;
 END //
 
+-- Використовуючи курсор, забезпечити динамічне створення таблиць з назвами+штамп часу, взятими зі стовпця з довільної таблиці БД, з випадковою кількістю стовпців (від 1 до 9).
 DROP PROCEDURE IF EXISTS create_tables_using_cursor //
 CREATE PROCEDURE create_tables_using_cursor()
 BEGIN
