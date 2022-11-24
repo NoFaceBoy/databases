@@ -1,11 +1,10 @@
 package ua.lviv.iot.imdb.domain;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Company {
+public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -13,12 +12,6 @@ public class Company {
     @Basic
     @Column(name = "name")
     private String name;
-    @Basic
-    @Column(name = "country_id")
-    private Integer countryId;
-
-    @OneToMany(mappedBy = "company")
-    private List<Movie> movies;
 
     public Integer getId() {
         return id;
@@ -36,32 +29,16 @@ public class Company {
         this.name = name;
     }
 
-    public Integer getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(Integer countryId) {
-        this.countryId = countryId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Company company = (Company) o;
-        return Objects.equals(id, company.id) && Objects.equals(name, company.name) && Objects.equals(countryId, company.countryId);
+        Country country = (Country) o;
+        return Objects.equals(id, country.id) && Objects.equals(name, country.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, countryId);
-    }
-
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+        return Objects.hash(id, name);
     }
 }

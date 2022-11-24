@@ -1,5 +1,6 @@
 package ua.lviv.iot.imdb.controller;
 
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -15,6 +16,7 @@ import ua.lviv.iot.imdb.dto.assembler.MovieDtoAssembler;
 import ua.lviv.iot.imdb.service.AwardService;
 
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -70,6 +72,13 @@ public class AwardController {
         Link selfLink = linkTo(methodOn(AwardController.class).getAllMoviesForAward(awardId)).withSelfRel();
         CollectionModel<MovieDto> movieDtos = movieDtoAssembler.toCollectionModel(movies, selfLink);
         return new ResponseEntity<>(movieDtos, HttpStatus.OK);
+    }
+
+    @Transactional
+    @PostMapping(value = "/create_relationship")
+    public ResponseEntity<?> createAwardMovieRelationship(@RequestBody JSONObject jsonObject) {
+        awardService.createAwardMovieRelationship(jsonObject.getAsString("award_name"), jsonObject.getAsString("movie_name"));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

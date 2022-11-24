@@ -14,6 +14,7 @@ import ua.lviv.iot.imdb.repository.DirectorRepository;
 import ua.lviv.iot.imdb.service.MovieService;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -75,4 +76,13 @@ public class MovieServiceImpl implements MovieService {
         return company.getMovies();
     }
 
+    @Override
+    public BigDecimal getAverageBudget() {
+        return movieRepository.getAverageBudget();
+    }
+
+    @Override
+    public void createTablesUsingCursor() {
+        movieRepository.createTablesUsingCursor();
+    }
 }

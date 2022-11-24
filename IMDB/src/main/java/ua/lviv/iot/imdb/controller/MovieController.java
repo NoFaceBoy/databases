@@ -14,6 +14,7 @@ import ua.lviv.iot.imdb.dto.assembler.MovieDtoAssembler;
 import ua.lviv.iot.imdb.service.MovieService;
 import ua.lviv.iot.imdb.dto.assembler.AwardDtoAssembler;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -76,5 +77,17 @@ public class MovieController {
         Link selfLink = linkTo(methodOn(MovieController.class).getMoviesByCompanyId(companyId)).withSelfRel();
         CollectionModel<MovieDto> movieDtos = movieDtoAssembler.toCollectionModel(movies, selfLink);
         return new ResponseEntity<>(movieDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/average_budget")
+    public ResponseEntity<BigDecimal> getAverageBudget() {
+        BigDecimal averageBudget = movieService.getAverageBudget();
+        return new ResponseEntity<>(averageBudget, HttpStatus.OK);
+    }
+
+    @PostMapping("/create-tables")
+    public ResponseEntity<?> createTablesUsingCursor() {
+        movieService.createTablesUsingCursor();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
